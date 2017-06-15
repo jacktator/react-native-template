@@ -20,21 +20,10 @@ import {
 import { Grid, Row } from 'react-native-easy-grid';
 import styles from './styles';
 
-class Home extends Component {
+class Me extends Component {
   static navigationOptions = {
     header: null,
   };
-  static propTypes = {
-    name: React.PropTypes.string,
-    setIndex: React.PropTypes.func,
-    list: React.PropTypes.arrayOf(React.PropTypes.string),
-    openDrawer: React.PropTypes.func,
-  };
-
-  newPage(index) {
-    this.props.setIndex(index);
-    Actions.blankPage();
-  }
 
   render() {
     const { params } = this.props.navigation.state;
@@ -42,7 +31,7 @@ class Home extends Component {
       <Container style={styles.container}>
         <Header>
           <Body>
-            <Title>Home</Title>
+            <Title>Me</Title>
           </Body>
         </Header>
         <Content>
@@ -50,10 +39,10 @@ class Home extends Component {
             {params.user}
           </Text>
         </Content>
-        <FooterSection navigation={this.props.navigation} selectedIndex={0} />
+        <FooterSection navigation={this.props.navigation} selectedIndex={1} />
       </Container>
     );
   }
 }
 
-export default Home;
+export default Me;

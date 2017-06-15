@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { Image } from "react-native";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Image } from 'react-native';
 import {
   Container,
   Content,
@@ -9,79 +8,72 @@ import {
   Button,
   Icon,
   View,
-  Text
-} from "native-base";
-import { Field, reduxForm } from "redux-form";
-import { setUser } from "../../actions/user";
-import styles from "./styles";
+  Text,
+} from 'native-base';
+import styles from './styles';
 
-const background = require("../../../images/shadow.png");
+const background = require('../../../images/shadow.png');
 
-const validate = values => {
+const validate = (values) => {
   const error = {};
-  error.email = "";
-  error.password = "";
-  var ema = values.email;
-  var pw = values.password;
+  error.email = '';
+  error.password = '';
+  let ema = values.email;
+  let pw = values.password;
   if (values.email === undefined) {
-    ema = "";
+    ema = '';
   }
   if (values.password === undefined) {
-    pw = "";
+    pw = '';
   }
-  if (ema.length < 8 && ema !== "") {
-    error.email = "too short";
+  if (ema.length < 8 && ema !== '') {
+    error.email = 'too short';
   }
-  if (!ema.includes("@") && ema !== "") {
-    error.email = "@ not included";
+  if (!ema.includes('@') && ema !== '') {
+    error.email = '@ not included';
   }
   if (pw.length > 12) {
-    error.password = "max 11 characters";
+    error.password = 'max 11 characters';
   }
   if (pw.length < 5 && pw.length > 0) {
-    error.password = "Weak";
+    error.password = 'Weak';
   }
   return error;
 };
 
 class Login extends Component {
-  static propTypes = {
-    setUser: React.PropTypes.func
-  };
+
   constructor(props) {
     super(props);
     this.state = {
-      name: ""
+      name: '',
     };
     this.renderInput = this.renderInput.bind(this);
   }
 
-  setUser(name) {
-    this.props.setUser(name);
-  }
   renderInput({
     input,
     label,
     type,
     meta: { touched, error, warning },
-    inputProps
+    inputProps,
   }) {
-    var hasError = false;
+    let hasError = false;
     if (error !== undefined) {
       hasError = true;
     }
     return (
       <Item error={hasError}>
-        <Icon active name={input.name === "email" ? "person" : "unlock"} />
+        <Icon active name={input.name === 'email' ? 'person' : 'unlock'} />
         <Input
-          placeholder={input.name === "email" ? "EMAIL" : "PASSWORD"}
+          placeholder={input.name === 'email' ? 'EMAIL' : 'PASSWORD'}
           {...input}
         />
         {hasError
-          ? <Item style={{ borderColor: "transparent" }}>
-              <Icon active style={{ color: "red", marginTop: 5 }} name="bug" />
-              <Text style={{ fontSize: 15, color: "red" }}>{error}</Text>
-            </Item>
+          ? <Item style={{ borderColor: 'transparent' }}>
+            <Icon active style={{ color: 'red', marginTop: 5 }} name="bug" />
+            <Text style={{ fontSize: 15, color: 'red' }}>{error}</Text>
+          </Item>
           : <Text />}
       </Item>
     );
@@ -93,11 +85,15 @@ class Login extends Component {
           <Content>
             <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
-                <Field name="email" component={this.renderInput} />
-                <Field name="password" component={this.renderInput} />
+                <Input placeholder="邮箱" onChangeText={newUserName => this.setState({ newUserName })} />
+                <Input
+                  placeholder="密码"
+                  onChangeText={newUserPassword => this.setState({ newUserPassword })}
+                  secureTextEntry
+                />
                 <Button
                   style={styles.btn}
-                  onPress={() => this.props.navigation.navigate("Home")}
+                  onPress={() => this.props.navigation.navigate('Home', { user: 'Lucy' })}
                 >
                   <Text>Login</Text>
                 </Button>
@@ -109,18 +105,5 @@ class Login extends Component {
     );
   }
 }
-const LoginSwag = reduxForm(
-  {
-    form: "test",
-    validate
-  },
-  function bindActions(dispatch) {
-    return {
-      setUser: name => dispatch(setUser(name))
-    };
-  }
-)(Login);
-LoginSwag.navigationOptions = {
-  header: null
-};
-export default LoginSwag;
+
+export default Login;
