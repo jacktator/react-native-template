@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import BlankPage2 from '../blankPage2';
-import DrawBar from '../DrawBar';
 import FooterSection from '../Footer';
 
 import {
@@ -37,7 +35,6 @@ class Home extends Component {
   }
 
   render() {
-    const { params } = this.props.navigation.state;
     return (
       <Container style={styles.container}>
         <Header>
@@ -47,10 +44,10 @@ class Home extends Component {
         </Header>
         <Content>
           <Text>
-            {params.user}
+          abs
           </Text>
         </Content>
-        <FooterSection navigation={this.props.navigation} selectedIndex={0} />
+        <FooterSection selectedIndex={0} />
       </Container>
     );
   }

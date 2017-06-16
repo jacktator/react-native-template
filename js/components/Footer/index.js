@@ -23,10 +23,10 @@ class FooterSection extends Component {
   }
 
   goHome() {
-    this.props.navigation.navigate('Home', { user: 'Lucy' });
+    Actions.home({ type: ActionConst.RESET });
   }
   goMe() {
-    this.props.navigation.navigate('Me', { user: 'me' });
+    Actions.me({ type: ActionConst.RESET });
   }
 
   render() {

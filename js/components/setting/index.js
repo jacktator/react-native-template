@@ -12,17 +12,17 @@ class Me extends Component {
     this.state = {
       currentUser: { profileName: 'wwy', username: 'omg@tiger.com', image: 'https://images-na.ssl-images-amazon.com/images/I/512U%2BsSlCaL._SY355_.jpg' },
     };
-    this.logout = this.logout.bind(this);
   }
-
-  logout() {
-    Actions.login({ type: ActionConst.RESET });
-  }
-
   render() {
     return (
       <Container style={styles.container}>
         <Header>
+          <Left>
+            <Button transparent onPress={() => Actions.pop()}>
+              <Icon style={{ color: 'black' }} name="ios-arrow-back" />
+              <Text style={{ color: 'black' }}>Back</Text>
+            </Button>
+          </Left>
           <Body>
             <Title>
               {
@@ -35,28 +35,13 @@ class Me extends Component {
               }
             </Title>
           </Body>
+          <Right />
         </Header>
         <Content style={{ marginBottom: 50 }}>
-          <Grid>
-            <Col style={{ padding: 10 }}>
-              <View style={{ alignSelf: 'center' }}>
-                {
-                  this.state.currentUser.image &&
-                  <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={{ uri: this.state.currentUser.image }} />
-                }
-
-              </View>
-            </Col>
-          </Grid>
-          <View style={{ alignSelf: 'center', marginBottom: 10 }}>
-            {
-              <Text>{this.state.currentUser.username}</Text>
-            }
-          </View>
           <List style={{ backgroundColor: 'white' }}>
-            <ListItem onPress={() => Actions.setting({ type: ActionConst.PUSH })}>
+            <ListItem onPress={() => Actions.setting}>
               <Left>
-                <Text>Setting</Text>
+                <Text>profileName</Text>
               </Left>
               <Body />
               <Right>
@@ -64,13 +49,7 @@ class Me extends Component {
               </Right>
             </ListItem>
           </List>
-          <Grid style={{ marginTop: 20, marginBottom: 30 }}>
-            <Col>
-              <Button onPress={this.logout} style={styles.bottomBtn}><Text style={{ color: 'black' }}>Logout</Text></Button>
-            </Col>
-          </Grid>
         </Content>
-        <FooterSection navigation={this.props.navigation} selectedIndex={1} />
       </Container>
     );
   }

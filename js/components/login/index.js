@@ -10,6 +10,7 @@ import {
   View,
   Text,
 } from 'native-base';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import styles from './styles';
 
 const background = require('../../../images/shadow.png');
@@ -93,7 +94,7 @@ class Login extends Component {
                 />
                 <Button
                   style={styles.btn}
-                  onPress={() => this.props.navigation.navigate('Home', { user: 'Lucy' })}
+                  onPress={() => Actions.home({ type: ActionConst.RESET })}
                 >
                   <Text>Login</Text>
                 </Button>
