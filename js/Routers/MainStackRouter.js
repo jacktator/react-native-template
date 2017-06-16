@@ -29,6 +29,7 @@ import Login from '../components/login/';
 import Home from '../components/home/';
 import Me from '../components/me/';
 import Setting from '../components/setting/';
+import SetUsername from '../components/setUsername/';
 import { statusBarColor } from '../themes/base-theme';
 
 
@@ -63,20 +64,16 @@ class AppNavigator extends Component {
     }
   }
 
-  _renderScene(props) { // eslint-disable-line class-methods-use-this
-    switch (props.scene.route.key) {
-      case 'login':
-        return <Login />;
-      case 'home':
-        return <Home />;
-      case 'me':
-        return <Me />;
-      case 'setting':
-        return <Setting />;
-      default :
-        return <Login />;
-    }
-  }
+  // _renderScene(props) { // eslint-disable-line class-methods-use-this
+  //   switch (props.scene.route.key) {
+  //     case 'login':
+  //       return <Login />;
+  //     case 'home':
+  //       return <Home />;
+  //     default :
+  //       return <Login />;
+  //   }
+  // }
 
   render() {
     return (
@@ -117,6 +114,7 @@ class AppNavigator extends Component {
             <Scene key="home" component={Home} hideNavBar />
             <Scene key="me" component={Me} hideNavBar />
             <Scene key="setting" component={Setting} hideNavBar />
+            <Scene key="setUsername" component={SetUsername} hideNavBar />
           </Scene>
         </RouterWithRedux>
       </Drawer>

@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import { Image, Dimensions } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
-import { View, Container, Header, Title, Content, Text, Button, Icon, Left, Body, Right, Footer, InputGroup, Input, List, ListItem } from 'native-base';
+import { View, Container, Header, Title, Content, Text, Button, Icon, Left, Body, Right, Footer, InputGroup, Input, List, ListItem, Item } from 'native-base';
 import styles from './styles';
 
-class Setting extends Component {
+class SetUsername extends Component {
   constructor() {
     super();
     this.state = {
+      profileName: '',
       currentUser: { profileName: 'wwy', username: 'omg@tiger.com', image: 'https://images-na.ssl-images-amazon.com/images/I/512U%2BsSlCaL._SY355_.jpg' },
     };
+    this.save = this.save.bind(this);
   }
+
+  save() {
+    Actions.me({ type: ActionConst.RESET });
+  }
+
   render() {
     return (
       <Container style={styles.container}>
@@ -33,24 +39,25 @@ class Setting extends Component {
               }
             </Title>
           </Body>
-          <Right />
+          <Right>
+            <Button transparent onPress={this.save}>
+              <Text>Save</Text>
+            </Button>
+          </Right>
         </Header>
         <Content style={{ marginBottom: 50 }}>
-          <List style={{ backgroundColor: 'white' }}>
-            <ListItem onPress={() => Actions.setUsername({ type: ActionConst.PUSH })}>
-              <Left>
-                <Text>profileName</Text>
-              </Left>
-              <Body />
-              <Right>
-                <Icon name="ios-arrow-forward" />
-              </Right>
-            </ListItem>
-          </List>
+          <Item>
+            <Icon name="person" />
+            <Input
+              placeholder="profile name"
+              onChangeText={profileName => this.setState({ profileName })}
+            />
+          </Item>
+
         </Content>
       </Container>
     );
   }
 }
 
-export default Setting;
+export default SetUsername;
