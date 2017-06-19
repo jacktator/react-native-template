@@ -8,7 +8,7 @@ class Setting extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { profileName: 'wwy', username: 'omg@tiger.com', image: 'https://images-na.ssl-images-amazon.com/images/I/512U%2BsSlCaL._SY355_.jpg' },
+      currentUser: global.currentUser,
     };
   }
   render() {
@@ -24,11 +24,11 @@ class Setting extends Component {
           <Body>
             <Title>
               {
-                this.state.currentUser.profileName &&
-                this.state.currentUser.profileName
+                this.state.currentUser.nickname &&
+                this.state.currentUser.nickname
               }
               {
-                !this.state.currentUser.profileName &&
+                !this.state.currentUser.nickname &&
                 'Me'
               }
             </Title>

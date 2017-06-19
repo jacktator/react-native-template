@@ -6,7 +6,7 @@ const style = {
 };
 
 const config = {
-  url: 'https://ozii.sk8.tech',
+  url: 'https://wp.sk8.tech',
 };
 
 export { config, style };

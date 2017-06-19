@@ -27,6 +27,7 @@ import { closeDrawer } from '../actions/drawer';
 
 import Login from '../components/login/';
 import Home from '../components/home/';
+import Detail from '../components/detail/';
 import Me from '../components/me/';
 import Setting from '../components/setting/';
 import SetUsername from '../components/setUsername/';
@@ -110,8 +111,9 @@ class AppNavigator extends Component {
         />
         <RouterWithRedux>
           <Scene key="root">
-            <Scene key="login" component={Login} hideNavBar initial />
-            <Scene key="home" component={Home} hideNavBar />
+            <Scene key="login" component={Login} hideNavBar />
+            <Scene key="home" component={Home} hideNavBar initial />
+            <Scene key="detail" component={Detail} hideNavBar />
             <Scene key="me" component={Me} hideNavBar />
             <Scene key="setting" component={Setting} hideNavBar />
             <Scene key="setUsername" component={SetUsername} hideNavBar />

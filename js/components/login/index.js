@@ -11,6 +11,9 @@ import {
   Text,
 } from 'native-base';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import Spinner from 'react-native-loading-spinner-overlay';
+import axios from 'axios';
+import { style, config } from '../../globel';
 import styles from './styles';
 
 const background = require('../../../images/shadow.png');
@@ -48,8 +51,67 @@ class Login extends Component {
     super(props);
     this.state = {
       name: '',
+      username: '',
+      password: '',
+      visible: false,
     };
     this.renderInput = this.renderInput.bind(this);
+    this.login = this.login.bind(this);
+  }
+
+  login() {
+    if (this.state.username === '') {
+      alert('用户名不能为空');
+    } else if (this.state.password === '') {
+      alert('密码不能为空');
+    } else {
+      this.setState({ visible: true });
+
+      const options = {
+        method: 'post',
+        url: `${config.url}/wp-json/jwt-auth/v1/token`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          username: this.state.username.toLowerCase(),
+          password: this.state.password,
+        },
+      };
+      return axios(options)
+        .then((body) => {
+          if (body.data.token) {
+            const token = body.data.token;
+            // returnData filter出用户
+            const options = {
+              method: 'get',
+              url: `${config.url}/wp-json/wp/v2/users/me?context=edit`,
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${body.data.token}`,
+              },
+            };
+            return axios(options)
+              .then((body) => {
+                global.storage.save({
+                  key: 'currentValue',   // Note: Do not use underscore("_") in key!
+                  data: {
+                    currentUser: body.data,
+                    currentUserToken: token,
+                  },
+                  expires: null,
+                });
+                this.setState({ visible: false });
+                Actions.home({ type: ActionConst.REPLACE });
+              });
+          }
+        }).catch((err) => {
+          this.setState({ visible: false });
+          setTimeout(() => {
+            alert('用户名或密码不正确');
+          }, 100);
+        });
+    }
   }
 
   renderInput({
@@ -82,22 +144,30 @@ class Login extends Component {
   render() {
     return (
       <Container>
+        <Spinner visible={this.state.visible} textContent={'加载中...'} textStyle={{ color: '#FFF' }} />
         <View style={styles.container}>
           <Content>
             <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
-                <Input placeholder="邮箱" onChangeText={newUserName => this.setState({ newUserName })} />
-                <Input
-                  placeholder="密码"
-                  onChangeText={newUserPassword => this.setState({ newUserPassword })}
-                  secureTextEntry
-                />
-                <Button
-                  style={styles.btn}
-                  onPress={() => Actions.home({ type: ActionConst.RESET })}
-                >
-                  <Text>Login</Text>
+                <Item style={styles.input}>
+                  <Icon active name="person" />
+                  <Input placeholder="邮箱" onChangeText={username => this.setState({ username })} />
+                </Item>
+                <Item style={styles.input}>
+                  <Icon name="lock" />
+                  <Input
+                    placeholder="密码"
+                    onChangeText={password => this.setState({ password })}
+                    secureTextEntry
+                  />
+                </Item>
+                <Text style={{ alignSelf: 'flex-end', color: 'grey', fontSize: 14 }} onPress={this.forgetPassword}>忘记密码？</Text>
+                <Button style={styles.btn} onPress={this.login}>
+                  <Text allowFontScaling={false}>登录</Text>
                 </Button>
+              </View>
+              <View style={{ marginTop: 100, alignSelf: 'center', flexDirection: 'row' }}>
+                <Text style={{ color: 'grey', fontSize: 14 }}>没有用户？</Text><Text onPress={this._showModal2} style={{ color: style.primaryColor, fontSize: 14 }}>注册</Text>
               </View>
             </Image>
           </Content>

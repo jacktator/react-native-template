@@ -10,12 +10,20 @@ class Me extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { profileName: 'wwy', username: 'omg@tiger.com', image: 'https://images-na.ssl-images-amazon.com/images/I/512U%2BsSlCaL._SY355_.jpg' },
+      currentUser: global.currentUser,
     };
     this.logout = this.logout.bind(this);
   }
 
+  componentDidMount() {
+
+  }
+
   logout() {
+    global.storage.remove({
+	     key: 'currentValue',
+    });
+
     Actions.login({ type: ActionConst.RESET });
   }
 
@@ -26,11 +34,11 @@ class Me extends Component {
           <Body>
             <Title>
               {
-                this.state.currentUser.profileName &&
-                this.state.currentUser.profileName
+                this.state.currentUser.nickname &&
+                this.state.currentUser.nickname
               }
               {
-                !this.state.currentUser.profileName &&
+                !this.state.currentUser.nickname &&
                 'Me'
               }
             </Title>
@@ -41,8 +49,8 @@ class Me extends Component {
             <Col style={{ padding: 10 }}>
               <View style={{ alignSelf: 'center' }}>
                 {
-                  this.state.currentUser.image &&
-                  <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={{ uri: this.state.currentUser.image }} />
+                  this.state.currentUser.avatar_urls[24] &&
+                  <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={{ uri: this.state.currentUser.avatar_urls[24] }} />
                 }
 
               </View>
@@ -50,7 +58,7 @@ class Me extends Component {
           </Grid>
           <View style={{ alignSelf: 'center', marginBottom: 10 }}>
             {
-              <Text>{this.state.currentUser.username}</Text>
+              <Text>{this.state.currentUser.email}</Text>
             }
           </View>
           <List style={{ backgroundColor: 'white' }}>
