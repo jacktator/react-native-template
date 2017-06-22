@@ -11,6 +11,7 @@ import platform from '../native-base-theme/variables/platform';
 function setup():React.Component {
   class Root extends Component {
 
+
     constructor() {
       super();
       this.state = {
